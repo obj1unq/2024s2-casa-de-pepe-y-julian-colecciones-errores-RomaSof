@@ -7,15 +7,8 @@ object casa {
 	var property cuenta = cuentaCorriente
 
 	method comprar(cosa) {
-		self.validarCompra(cosa)
-	  	cosas.add(cosa)
 		cuenta.extraer(cosa.precio())
-	}
-
-	method validarCompra(cosa) {
-	  if(cosa.precio() > cuenta.saldo()){
-		self.error("no alcanza tamo pobres")
-	  }
+	  	cosas.add(cosa)
 	}
 
 	method cosasCompradas() {
@@ -83,6 +76,6 @@ object casa {
 	}
 
 	method categoriasCompradas() {
-	  return cosas.map({cosa => cosa.categoria()})
+	  return cosas.map({cosa => cosa.categoria()}).asSet()
 	} //con map -> el map siempre devuelve lista -> no repetidos, entonces podes ver todas las categorías compradas
 }

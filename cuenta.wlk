@@ -6,10 +6,6 @@ object cuentaCorriente {
       saldo = saldo + plata
     }
 
-/*
-    Modificar la **cuenta corriente** para que el saldo nunca pueda ser negativo, si el valor que se desea extraer mayor al disponible, entonces la extracción no se puede realizar, es decir, si tengo $500, y necesito extraer $600, entonces la extracción no se puede realizar.
-*/
-
     method extraer(plata) {
       self.validarExtraccion(plata)
       saldo = saldo - plata
