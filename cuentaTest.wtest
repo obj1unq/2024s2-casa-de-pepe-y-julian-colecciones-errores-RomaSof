@@ -1,0 +1,32 @@
+import cuenta.*
+describe "cuentas bancarias" {
+  test "cuenta con Gastos vacía con 20 pesos de costo por operación, se depositan 1000 pesos y el saldo queda en 980" {
+
+    //cuentaConGastos.saldo(0) ya es 0 de base
+
+    cuentaConGastos.costoOperacion(20)
+
+    cuentaConGastos.depositar(1000)
+
+    assert.equals(980, cuentaConGastos.saldo())
+
+  }
+
+  test "cuenta combinada"{
+
+    cuentaConGastos.costoOperacion(50)
+    cuentaCorriente.saldo(500)
+
+    cuentaCombinada.depositar(100)
+    
+    assert.equals(50, cuentaConGastos.saldo())
+
+    cuentaCombinada.extraer(200)
+
+    assert.equals(300, cuentaCorriente.saldo())
+
+    assert.equals(350, cuentaCombinada.saldo())
+
+  }
+}
+
