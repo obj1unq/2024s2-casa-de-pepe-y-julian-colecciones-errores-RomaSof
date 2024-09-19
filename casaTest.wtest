@@ -6,6 +6,8 @@ import cuenta.*
 
 describe "la casa" {
   test "comprar cosas" {
+
+    casa.cuenta().saldo(100000) //que caro todo
     
     casa.comprar(heladera)
     casa.comprar(cama)
