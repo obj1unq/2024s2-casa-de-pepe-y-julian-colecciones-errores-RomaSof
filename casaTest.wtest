@@ -1,0 +1,83 @@
+import casa.*
+import cosas.*
+import cuenta.*
+
+
+
+describe "la casa" {
+  test "comprar cosas" {
+    
+    casa.comprar(heladera)
+    casa.comprar(cama)
+    casa.comprar(plancha)
+
+    assert.equals(#{heladera, cama, plancha}, casa.cosasCompradas())
+    assert.equals(3, casa.cantidadDeCosasCompradas())
+    assert.that(casa.tieneAlgun(electrodomestico))
+    assert.that(casa.tieneAlgun(mueble))
+    assert.notThat(casa.tieneAlgun(comida))
+    assert.that(casa.vieneDeComprar(electrodomestico))
+    assert.notThat(casa.vieneDeComprar(mueble))
+    assert.that(casa.esDerrochona()) 
+    assert.equals( #{heladera, plancha}, casa.comprados(electrodomestico))
+    assert.equals(#{cama}, casa.comprados(mueble))
+    assert.that(casa.comprados(comida).isEmpty())
+    assert.notThat(casa.malaEpoca())
+    assert.equals(#{tiraDeAsado,paqueteDeFideos}, casa.queFaltaComprar(#{tiraDeAsado, plancha, paqueteDeFideos}))
+    assert.that(casa.faltaComida())
+    assert.that(casa.tieneAlgun(mueble)) 
+    assert.that(casa.tieneAlgun(electrodomestico))
+    assert.equals(casa.compraMasCara(), heladera)
+
+  }
+}
+
+describe "cuenta de la casa" {
+  test "compar cosas con cuenta corriente" {
+    
+    casa.cuenta().saldo(1000)
+    casa.comprar(tiraDeAsado)
+    casa.comprar(paqueteDeFideos)
+
+    assert.equals(600, casa.cuenta().saldo())
+  }
+
+  test "se puede extraer 900" {
+    
+    casa.cuenta().saldo(1000)
+
+    assert.equals(1000, casa.cuenta().saldo())
+
+    casa.cuenta().extraer(900)
+  }
+
+  test "no se puede extraer 1200" {
+    
+    casa.cuenta().saldo(1000)
+
+    assert.equals(1000, casa.cuenta().saldo())
+
+    assert.throwsException({ casa.cuenta().extraer(1200) })
+  }
+
+  test "tengo $1000 de saldo, puedo comprar un tira de asado, tengo una cosa en la lista de cosas compradas y al saldo se le restó el precio de la tira de asado." {
+    casa.cuenta().saldo(1000)  
+
+    casa.comprar(tiraDeAsado)
+
+    assert.equals(1, casa.cantidadDeCosasCompradas())
+
+    assert.equals(650, casa.cuenta().saldo())
+  }
+
+  test "tengo $1000 de saldo, no puedo comprar una plancha, por lo tanto la lista de cosas compradas queda vacío, y el el saldo no se modificó." {
+    
+    casa.cuenta().saldo(1000)
+
+    assert.throwsException({ casa.comprar(plancha) })
+
+    assert.equals(0, casa.cantidadDeCosasCompradas())
+
+    assert.equals(1000, casa.cuenta().saldo())
+  }
+}
